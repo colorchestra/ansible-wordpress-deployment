@@ -13,6 +13,7 @@ Currently only tested on Debian Buster.
 
 ### Prepare server
 - Add server to `hosts`
+- Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
 - `ansible-playbook -i hosts host-from-scratch.yml --extra-vars "@sites/example.com"`
 
 ### Deploy site
