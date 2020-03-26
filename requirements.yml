@@ -1,0 +1,5 @@
+---
+- name: serverbasics
+  src: https://github.com/colorchestra/ansible-role-serverbasics
+
+- name: geerlingguy.docker

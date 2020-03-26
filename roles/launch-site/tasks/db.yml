@@ -1,0 +1,16 @@
+---
+- name: Create Wordpress database
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Create DB user
+  mysql_user:
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    name: "{{ db_user }}"
+    host: '%'
+    password: "{{ db_password }}"
+    priv: "{{ db_name }}.*:ALL"
+  tags: database-setup

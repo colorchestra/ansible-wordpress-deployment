@@ -1,0 +1,29 @@
+---
+- name: Install reverse proxy dependencies
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - nginx
+    - dehydrated
+  tags: proxy-setup
+
+- name: Allow http(s) ports
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+  loop:
+    - "80"
+    - "443"
+  tags: proxy-setup
+
+- name: Remove Nginx default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  tags: proxy-setup
+  notify: restart nginx
+
+- name: Letsencrypt shizzle
+  import_tasks: letsencrypt.yml

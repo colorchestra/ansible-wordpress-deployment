@@ -1,0 +1,17 @@
+---
+- name: Create Firewall rule for DB connections
+  ufw:
+    rule: allow
+    interface: docker0
+    direction: in
+    to: any
+    port: "3306"
+  
+- name: Install Docker Python modules
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - python-docker
+    - python3-docker 

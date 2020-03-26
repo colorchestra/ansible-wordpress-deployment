@@ -1,0 +1,5 @@
+*.swp
+.vscode
+hosts
+sites/
+!sites/template.yml

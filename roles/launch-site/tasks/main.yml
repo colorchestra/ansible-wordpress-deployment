@@ -1,0 +1,22 @@
+---
+- name: Create site configuration directory
+  file:
+    path: "/root/{{ domain }}"
+    state: directory
+
+- name: Get Docker network address
+  docker_network_info:
+    name: bridge
+  register: networkinfo 
+
+- set_fact:
+    db_host: "{{ networkinfo.network['IPAM']['Config'][0]['Gateway'] }}"
+  
+- name: Create database and user
+  import_tasks: db.yml
+
+- name: Configure Nginx and Letsencrypt
+  import_tasks: nginx.yml
+
+- name: Configure Systemd and Docker
+  import_tasks: systemd.yml

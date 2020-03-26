@@ -1,0 +1,49 @@
+---
+- name: Add domains to domains.txt
+  lineinfile:
+    path: /etc/dehydrated/domains.txt
+    line: "{{ domain }}"
+    create: yes
+  tags: proxy-setup
+
+# Necessary because we can't copy the https Nginx config before the certs are there
+- name: Copy temp Nginx configuration (http only)
+  template: 
+    src: nginx-proxy-http-only.j2
+    dest: "/etc/nginx/sites-enabled/{{ domain }}"
+  tags: proxy-setup
+
+- name: Restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+  tags: proxy-setup
+
+- name: Get Certificates with Dehydrated
+  command: dehydrated --cron
+  tags: proxy-setup
+
+- name: Remove temp Nginx config
+  file: 
+    path: "/etc/nginx/sites-enabled/{{ domain }}"
+    state: absent
+  tags: proxy-setup
+
+- name: Copy Nginx template
+  template: 
+    src: nginx-proxy.j2
+    dest: "/etc/nginx/sites-available/{{ domain }}"
+  tags: proxy-setup
+
+- name: Set Nginx config symlink
+  file:
+    src: "/etc/nginx/sites-available/{{ domain }}"
+    dest: "/etc/nginx/sites-enabled/{{ domain }}"
+    state: link
+  tags: proxy-setup
+
+- name: Restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+  tags: proxy-setup

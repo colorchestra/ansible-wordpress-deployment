@@ -1,0 +1,25 @@
+---
+- name: Create Nginx configuration
+  import_tasks: nginx.yml
+
+- name: Copy Docker envfile
+  template:
+    src: docker-envfile.j2
+    dest: "/root/{{ domain }}/docker-envfile"
+
+- name: Add systemd unit for application container
+  template:
+    src: wordpress-docker.service.j2
+    dest: "/etc/systemd/system/{{ container }}.service"
+
+- name: Enable service
+  systemd:
+    name: "{{ container }}.service"
+    state: stopped
+    enabled: yes
+    daemon_reload: yes
+
+- name: Start service
+  systemd:
+    name: "{{ container }}.service"
+    state: started
