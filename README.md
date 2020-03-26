@@ -1,5 +1,5 @@
 # Ansible playbook for deploying Wordpress with Docker
-# Work in progress - not ready for production use!
+## Work in progress - not ready for production use!
 My take on the perfect Wordpress deployment :) specifically makes it easy to run many Wordpress sites on one server.
 
 - Each site runs in a single Docker container
