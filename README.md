@@ -1,5 +1,5 @@
-# Work in progress - not ready for production use!
 # Ansible playbook for deploying Wordpress with Docker
+# Work in progress - not ready for production use!
 My take on the perfect Wordpress deployment :) specifically makes it easy to run many Wordpress sites on one server.
 
 - Each site runs in a single Docker container
@@ -17,10 +17,9 @@ Currently only tested on Debian Buster.
 
 ### Deploy site
 - Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
-ansible-playbook -i hosts launch-site.yml --extra-vars "@sites/example.com
+- `ansible-playbook -i hosts launch-site.yml --extra-vars "@sites/example.com`
 
 ## To Do
-- Proper tagging
 - add remote logging
 - add smtp configuration
 - docker volumes
@@ -28,3 +27,4 @@ ansible-playbook -i hosts launch-site.yml --extra-vars "@sites/example.com
 - switch from apache image to the fpm image
 - maybe: Consolidate nginx, mariadb, and docker roles into one
 - maybe: chrooted sftp access so customers can edit their sites
+- maybe: build own Wordpress Docker images
