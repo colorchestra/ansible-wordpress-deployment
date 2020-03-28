@@ -3,18 +3,15 @@
   file:
     path: /var/www/letsencrypt
     state: directory
-  tags: proxy-setup
 
 - name: Register to Letsencrypt CA
   command: dehydrated --register --accept-terms
-  tags: proxy-setup
 
 - name: Change Dehydrated wellknown directory
   lineinfile:
     path: /etc/dehydrated/config
     regexp: '^WELLKNOWN=*'
     line: 'WELLKNOWN="/var/www/letsencrypt/.well-known/acme-challenge"'
-  tags: proxy-setup
 
 - name: Create Dehydrated cronjob
   cron:
@@ -24,4 +21,3 @@
     weekday: "5"
     user: root
     job: /usr/bin/dehydrated -c
-  tags: proxy-setup

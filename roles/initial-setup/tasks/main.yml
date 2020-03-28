@@ -6,3 +6,11 @@
 - name: Run Docker setup
   import_tasks: docker.yml
   tags: docker-setup
+
+- name: Run Nginx setup
+  import_tasks: nginx.yml
+  tags: reverseproxy-setup
+
+- name: Run Letsencrypt configuration
+  import_tasks: letsencrypt.yml
+  tags: reverseproxy-setup

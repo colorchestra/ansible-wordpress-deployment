@@ -8,17 +8,14 @@
       - mariadb-server
       - python-pymysql
       - python3-pymysql
-  tags: database-setup
 
 - name: Change MariaDB bind IP
   lineinfile:
     path: /etc/mysql/mariadb.conf.d/50-server.cnf
     regexp: '^bind-address *'
     line: 'bind-address            = 0.0.0.0'
-  tags: database-setup
 
 - name: Restart MariaDB
   systemd:
     name: mariadb
     state: restarted
-  tags: database-setup
