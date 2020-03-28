@@ -4,8 +4,4 @@
   roles:
     - serverbasics
     - geerlingguy.docker
-    - reverse-proxy-setup
-    - database-setup
-    - docker-setup
-  vars_files: 
-    - settings.yml
+    - initial-setup
