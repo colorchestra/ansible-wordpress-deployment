@@ -1,0 +1,8 @@
+---
+- name: Run MariaDB setup
+  import_tasks: mariadb.yml
+  tags: database-setup
+
+- name: Run Docker setup
+  import_tasks: docker.yml
+  tags: docker-setup
