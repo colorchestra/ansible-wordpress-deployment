@@ -1,7 +1,7 @@
 ---
 - name: Create Letsencrypt directory
   file:
-    path: /var/www/letsencrypt
+    path: /var/www/letsencrypt/.well-known/acme-challenge
     state: directory
 
 - name: Register to Letsencrypt CA
