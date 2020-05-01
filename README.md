@@ -1,5 +1,4 @@
 # Ansible Playbook for deploying Wordpress with Docker
-## Work in progress - not ready for production use!
 My take on the perfect Wordpress deployment :) specifically makes it easy to run many Wordpress sites on one server.
 
 - Each site runs in a single Docker container
@@ -7,17 +6,22 @@ My take on the perfect Wordpress deployment :) specifically makes it easy to run
 - Nginx runs on the host and provides HTTPS termination and reverse proxying to the containers
 - MariaDB runs on the host and is used by all Wordpress instances
 - Dehydrated provides Letsencrypt integration
+- Volumes are mounted to the host for easy access to site data
+
+## Project status
+As of now (2020-05-01), this project is in a working state, but has not been tested on a larger scale. There are still improvements to be made (see "To do"), but it can be used just fine in its current state.
 
 ## Usage
 Currently only tested on Debian Buster.
 
 ### Prepare server
-Only needs to be done once.
-- Add server to `hosts`
+Only needs to be executed once on a bare server. Sets up everything necessary to deploy Wordpress sites.
+- Add server to the `[wordpress]` section in the `hosts` file
 - Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
 - `ansible-playbook -i hosts host-from-scratch.yml --extra-vars "@sites/example.com"`
 
 ### Deploy site
+Creates a new site or re-activates it after deactivation
 - Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
 - `ansible-playbook -i hosts launch-site.yml --extra-vars "@sites/example.com`
 
