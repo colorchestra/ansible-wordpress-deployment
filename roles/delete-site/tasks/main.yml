@@ -1,6 +1,44 @@
 ---
-# to do!
-# - delete systemd service
-# - delete volumes and data
-# - delete db
-# - delete nginx config
+- pause:
+    prompt: "Site {{ domain }} will be irrecoverably deleted including all uploads, assets, databases and certificates. Please make sure that this is what you want to do and that you have a backup."
+
+- name: Delete systemd service
+  file:
+    name: "/etc/systemd/system/{{ container }}.service"
+    state: absent
+
+- name: systemd daemon-reload
+  systemd:
+    daemon_reload: yes
+
+- name: Delete site directory
+  file:
+    name: "/srv/{{ domain }}"
+    state: absent
+
+- name: Delete Nginx configuration
+  file:
+    name: "/etc/nginx/sites-available/{{ domain }}"
+    state: absent
+
+- name: Delete TLS certificates
+  file:
+    name: "/var/lib/dehydrated/certs/{{ domain }}"
+    state: absent
+
+- name: Delete Docker volume
+  docker_volume:
+    name: "{{ container }}"
+    state: absent
+
+- name: Delete database
+  mysql_db:
+    name: "{{ db_name }}"
+    state: absent
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Delete database user
+  mysql_user:
+    name: "{{ db_user }}"
+    state: absent
+    login_unix_socket: /var/run/mysqld/mysqld.sock

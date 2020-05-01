@@ -1,4 +1,4 @@
-# Ansible playbook for deploying Wordpress with Docker
+# Ansible Playbook for deploying Wordpress with Docker
 ## Work in progress - not ready for production use!
 My take on the perfect Wordpress deployment :) specifically makes it easy to run many Wordpress sites on one server.
 
@@ -22,7 +22,7 @@ Only needs to be done once.
 - `ansible-playbook -i hosts launch-site.yml --extra-vars "@sites/example.com`
 
 ### Deactivate site
-Meant for temporarily deactivating a Wordpress site without deleting it
+Meant for temporarily deactivating a Wordpress site without deleting it. Run `launch-site.yml` to recover it while retaining all of its data
 - Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
 - `ansible-playbook -i hosts deactivate-site.yml --extra-vars "@sites/example.com`
 
@@ -34,9 +34,10 @@ Irrecoverably deletes a Wordpress site and all associated data! Make sure to hav
 ## To Do
 - add remote logging
 - add smtp configuration
-- docker volumes
+- ~~add delete-site playbook~~
+- ~~docker volumes~~
 - borg agent / db dumpgs
 - switch from apache image to the fpm image
-- maybe: Consolidate nginx, mariadb, and docker roles into one
+- ~~maybe: Consolidate nginx, mariadb, and docker roles into one~~
 - maybe: chrooted sftp access so customers can edit their sites
 - maybe: build own Wordpress Docker images

@@ -1,11 +1,8 @@
 ---
-- name: Create Nginx configuration
-  import_tasks: nginx.yml
-
 - name: Copy Docker envfile
   template:
     src: docker-envfile.j2
-    dest: "/root/{{ domain }}/docker-envfile"
+    dest: "/srv/{{ domain }}/docker-envfile"
 
 - name: Add systemd unit for application container
   template:

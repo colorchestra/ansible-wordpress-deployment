@@ -1,4 +1,5 @@
 ---
+# note: the delete-site role must be used in conjunction with deactivate-site
 - hosts: wordpress
   remote_user: root
   roles:

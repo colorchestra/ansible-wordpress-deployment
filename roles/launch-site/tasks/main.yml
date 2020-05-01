@@ -1,7 +1,7 @@
 ---
 - name: Create site configuration directory
   file:
-    path: "/root/{{ domain }}"
+    path: "/srv/{{ domain }}"
     state: directory
 
 - name: Get Docker network address
@@ -18,5 +18,8 @@
 - name: Configure Nginx and Letsencrypt
   import_tasks: nginx.yml
 
-- name: Configure Systemd and Docker
+- name: Configure Docker
+  import_tasks: docker.yml
+
+- name: Configure Systemd
   import_tasks: systemd.yml
