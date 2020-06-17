@@ -9,7 +9,7 @@ ExecStartPre=/usr/bin/docker pull wordpress:{{ docker_tag }}
 ExecStart=/usr/bin/docker run --rm \
     --name {{ container }} \
     --env-file="/srv/{{ domain }}/docker-envfile" \
-    --mount source={{ container }},destination=/var/www/html \
+    --mount type=bind,source=/srv/{{ domain }}/webroot,destination=/var/www/html \
     -p 127.0.0.1:{{ bind_port }}:80 \
     wordpress:{{ docker_tag }}
 ExecStop=/usr/bin/docker stop {{ container }}

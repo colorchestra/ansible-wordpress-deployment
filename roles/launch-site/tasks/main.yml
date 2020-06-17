@@ -4,6 +4,11 @@
     path: "/srv/{{ domain }}"
     state: directory
 
+- name: Create bind-mountpoint for the webroot
+  file:
+    path: "/srv/{{ domain }}/webroot"
+    state: directory
+
 - name: Get Docker network address
   docker_network_info:
     name: bridge

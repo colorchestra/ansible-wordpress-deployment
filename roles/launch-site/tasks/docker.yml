@@ -3,8 +3,3 @@
   template:
     src: docker-envfile.j2
     dest: "/srv/{{ domain }}/docker-envfile"
-
-- name: Create Docker Volume
-  docker_volume:
-    name: "{{ container }}"
-    state: present
