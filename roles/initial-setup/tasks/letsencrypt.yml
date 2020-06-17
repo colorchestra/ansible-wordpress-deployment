@@ -12,6 +12,7 @@
     path: /etc/dehydrated/config
     regexp: '^WELLKNOWN=*'
     line: 'WELLKNOWN="/var/www/letsencrypt/.well-known/acme-challenge"'
+    create: yes
 
 - name: Create Dehydrated cronjob
   cron:
