@@ -19,4 +19,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_pass http://localhost:{{ bind_port }};
     }
+
+    access_log /var/log/nginx/{{ domain }}-access.log;
+    error_log /var/log/nginx/{{ domain }}-error.log;
 }
