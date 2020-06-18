@@ -16,24 +16,24 @@ Currently only tested on Debian Buster.
 
 ### Prepare server
 Only needs to be executed once on a bare server. Sets up everything necessary to deploy Wordpress sites.
-- Add server to the `[wordpress]` section in the `hosts` file
-- Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
-- `ansible-playbook -i hosts host-from-scratch.yml --extra-vars "@sites/example.com"`
+- Add server to the `hosts` file, preferably to its own section
+- Add hosts section name to the `hosts: ` variable in `host-from-scratch.yml`
+- `ansible-playbook -i hosts host-from-scratch.yml`
 
 ### Deploy site
 Creates a new site or re-activates it after deactivation
 - Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
-- `ansible-playbook -i hosts launch-site.yml --extra-vars "@sites/example.com`
+- `ansible-playbook -i hosts launch-site.yml --extra-vars "@sites/example.com"`
 
 ### Deactivate site
 Meant for temporarily deactivating a Wordpress site without deleting it. Run `launch-site.yml` to recover it while retaining all of its data
 - Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
-- `ansible-playbook -i hosts deactivate-site.yml --extra-vars "@sites/example.com`
+- `ansible-playbook -i hosts deactivate-site.yml --extra-vars "@sites/example.com"`
 
 ### Delete site
 Irrecoverably deletes a Wordpress site and all associated data! Make sure to have a backup!
 - Copy `sites/template.yml` to `sites/yourdomain.yml` and fill in the variables
-- `ansible-playbook -i hosts delete-site.yml --extra-vars "@sites/example.com`
+- `ansible-playbook -i hosts delete-site.yml --extra-vars "@sites/example.com"`
 
 ## To Do
 - add remote logging
