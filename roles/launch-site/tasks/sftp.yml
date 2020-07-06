@@ -5,6 +5,7 @@
     password: "{{ sftp_password | password_hash('sha512') }}"
     comment: "SFTP access for site {{ domain }}"
     create_home: yes
+    password_lock: no
     home: "/home/{{ shortname }}"
     shell: /bin/false
 

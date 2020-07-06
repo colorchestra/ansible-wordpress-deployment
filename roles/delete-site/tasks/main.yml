@@ -11,10 +11,32 @@
   systemd:
     daemon_reload: yes
 
+- name: Delete SFTP user
+  user:
+    name: "{{ shortname }}"
+    state: absent
+
+- name: Delete home directory
+  file:
+    name: "/home/{{ domain }}"
+    state: absent
+
 - name: Delete site directory
   file:
     name: "/srv/{{ domain }}"
     state: absent
+
+- name: Delete user block in sshd config
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      ### SFTP for site {{ domain }}
+      Match User {{ shortname }}
+          ChrootDirectory %h
+          ForceCommand internal-sftp
+          AllowTcpForwarding no
+    state: absent
+  notify: restart sshd
 
 - name: Delete Nginx configuration
   file:
