@@ -7,6 +7,7 @@ My take on the perfect Wordpress deployment :) specifically makes it easy to run
 - MariaDB runs on the host and is used by all Wordpress instances
 - Dehydrated provides Letsencrypt integration
 - Volumes are mounted to the host for easy access to site data
+- Each site gets a system user with SFTP access to their webroot
 
 ## Project status
 As of now (2020-05-01), this project is in a working state, but has not been tested on a larger scale. There are still improvements to be made (see "To do"), but it can be used just fine in its current state.
@@ -43,5 +44,5 @@ Irrecoverably deletes a Wordpress site and all associated data! Make sure to hav
 - borg agent / db dumpgs
 - switch from apache image to the fpm image
 - ~~maybe: Consolidate nginx, mariadb, and docker roles into one~~
-- maybe: chrooted sftp access so customers can edit their sites
+- ~~maybe: chrooted sftp access so customers can edit their sites~~
 - maybe: build own Wordpress Docker images
