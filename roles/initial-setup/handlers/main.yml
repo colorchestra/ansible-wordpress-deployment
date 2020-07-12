@@ -8,3 +8,8 @@
   systemd:
     state: restarted
     name: mariadb
+
+- name: restart sshd
+  systemd:
+    state: restarted
+    name: sshd

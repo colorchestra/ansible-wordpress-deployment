@@ -20,6 +20,9 @@
 - name: Create database and user
   import_tasks: db.yml
 
+- name: Create SFTP account
+  import_tasks: sftp.yml
+
 - name: Configure Nginx and Letsencrypt
   import_tasks: nginx.yml
 

@@ -1,9 +1,4 @@
 ---
-- name: restart nginx
-  systemd:
-    state: restarted
-    name: nginx
-
 - name: restart sshd
   systemd:
     state: restarted

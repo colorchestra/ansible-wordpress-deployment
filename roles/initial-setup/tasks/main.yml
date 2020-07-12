@@ -1,4 +1,8 @@
 ---
+- name: Run sshd setup
+  import_tasks: sshd.yml
+  tags: sshd-setup
+
 - name: Run MariaDB setup
   import_tasks: mariadb.yml
   tags: database-setup

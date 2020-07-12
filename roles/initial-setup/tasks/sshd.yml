@@ -1,0 +1,14 @@
+---
+- name: Allow SSH password login for sftp
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: "^#? ?PasswordAuthentication no"
+    replace: "PasswordAuthentication yes"
+  notify: restart sshd
+
+- name: Replace default sftp directive in sshd_config with the correct one
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#? ?[Ss]ubsystem [ \t]*sftp.*$'
+    line: 'Subsystem sftp internal-sftp'
+  notify: restart sshd

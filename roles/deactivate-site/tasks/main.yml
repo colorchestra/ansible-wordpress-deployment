@@ -16,3 +16,8 @@
     path: /etc/dehydrated/domains.txt
     regexp: "^{{ domain }} www.{{ domain }}$"
     state: absent
+
+- name: Disable SFTP user
+  user:
+    name: "{{ shortname }}"
+    password_lock: yes

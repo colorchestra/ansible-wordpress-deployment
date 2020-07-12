@@ -1,0 +1,54 @@
+---
+- name: Create user account for SFTP
+  user:
+    name: "{{ shortname }}"
+    password: "{{ sftp_password | password_hash('sha512') }}"
+    comment: "SFTP access for site {{ domain }}"
+    create_home: yes
+    password_lock: no
+    home: "/home/{{ shortname }}"
+    shell: /bin/false
+
+- name: Add SFTP block for user to sshd config
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      ### SFTP for site {{ domain }}
+      Match User {{ shortname }}
+          ChrootDirectory %h
+          ForceCommand internal-sftp
+          AllowTcpForwarding no
+  notify: restart sshd
+
+- name: Create directory to mount webroot into
+  file:
+    path: "/home/{{ shortname }}/webroot"
+    state: directory
+    owner: "{{ shortname }}"
+    group: "{{ shortname }}"
+
+- name: Make root owner of user's home directory
+  # Sadly necessary so sshd doesn't complain (see https://adminforge.de/linux-allgemein/openssh/fix-bad-ownership-modes-chroot-directory-component/)
+  file:
+    path: "/home/{{ shortname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '755'
+
+- name: Set ACL for user webroot
+  acl:
+    path: "/srv/{{ domain }}/webroot"
+    entity: "{{ shortname }}"
+    etype: user
+    permissions: rwx
+    recursive: yes
+    state: present
+
+- name: Bind-mount webroot into user directory
+  mount:
+    path: "/home/{{ shortname }}/webroot"
+    src: "/srv/{{ domain }}/webroot"
+    opts: bind
+    state: mounted
+    fstype: none
