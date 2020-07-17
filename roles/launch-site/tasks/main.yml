@@ -22,6 +22,7 @@
 
 - name: Create SFTP account
   import_tasks: sftp.yml
+  when: sftp_password is defined
 
 - name: Configure Nginx and Letsencrypt
   import_tasks: nginx.yml
