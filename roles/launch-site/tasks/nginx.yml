@@ -4,46 +4,45 @@
     path: /etc/dehydrated/domains.txt
     line: "{{ domain }}"
     create: yes
-  tags: proxy-setup
 
-# Necessary because we can't copy the https Nginx config before the certs are there
-- name: Copy temp Nginx configuration (http only)
-  template: 
-    src: nginx-proxy-http-only.j2
-    dest: "/etc/nginx/sites-enabled/{{ domain }}"
-  tags: proxy-setup
+- set_fact:
+    get_new_certificates: false
 
-- name: Restart nginx
-  systemd:
-    name: nginx
-    state: restarted
-  tags: proxy-setup
+- name: Check if TLS certificates exist
+  stat:
+    path: "/var/lib/dehydrated/certs/{{ domain }}/fullchain.pem"
+  register: certs_exist_result
 
-- name: Get Certificates with Dehydrated
-  command: dehydrated --cron
-  tags: proxy-setup
+- set_fact:
+    get_new_certificates: true
+  when: certs_exist_result.stat.exists == false
 
-- name: Remove temp Nginx config
-  file: 
-    path: "/etc/nginx/sites-enabled/{{ domain }}"
-    state: absent
-  tags: proxy-setup
+- name: Check if valid TLS certificates are present
+  openssl_certificate_info:
+    path: "/var/lib/dehydrated/certs/{{ domain }}/fullchain.pem"
+    valid_at:
+      oneweek: "+7d"
+  register: certs_valid_result
+
+- set_fact:
+    get_new_certificates: true
+  when: (certs_exist_result.stat.exists == false) or (certs_valid_result.valid_at.oneweek == false)
+
+- include_tasks: get-certificates.yml
+  when: get_new_certificates == true
 
 - name: Copy Nginx template
   template: 
     src: nginx-proxy.j2
     dest: "/etc/nginx/sites-available/{{ domain }}"
-  tags: proxy-setup
 
 - name: Set Nginx config symlink
   file:
     src: "/etc/nginx/sites-available/{{ domain }}"
     dest: "/etc/nginx/sites-enabled/{{ domain }}"
     state: link
-  tags: proxy-setup
 
 - name: Restart nginx
   systemd:
     name: nginx
     state: restarted
-  tags: proxy-setup

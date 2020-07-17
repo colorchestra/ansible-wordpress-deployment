@@ -1,4 +1,10 @@
 ---
+- name: Install required Python libraries
+  apt:
+    pkg: python-cryptography
+    state: present
+    update_cache: yes
+
 - name: Run sshd setup
   import_tasks: sshd.yml
   tags: sshd-setup
