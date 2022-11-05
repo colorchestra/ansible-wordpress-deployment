@@ -1,10 +1,4 @@
 ---
-- name: Stop and disable systemd service
-  systemd:
-    name: "{{ container }}.service"
-    state: stopped
-    enabled: no
-
 - name: Remove Nginx config symlink
   file:
     path: "/etc/nginx/sites-enabled/{{ domain }}"

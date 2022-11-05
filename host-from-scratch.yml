@@ -1,6 +1,8 @@
 ---
 - hosts: wordpress
   remote_user: root
+  vars:
+    - ssh_pubkey_url: https://colorchestra.gitlab.io/static/exthost01.pub
   roles:
     - serverbasics
     - geerlingguy.docker

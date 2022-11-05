@@ -23,6 +23,7 @@
     valid_at:
       oneweek: "+7d"
   register: certs_valid_result
+  when: get_new_certificates == False
 
 - set_fact:
     get_new_certificates: true

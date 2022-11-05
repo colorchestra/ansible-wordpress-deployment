@@ -21,4 +21,4 @@
     hour: "7"
     weekday: "5"
     user: root
-    job: /usr/bin/dehydrated -c
+    job: /usr/bin/dehydrated -c -g
